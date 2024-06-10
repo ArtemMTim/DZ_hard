@@ -7,11 +7,11 @@ def product_list_sorter(products: List[dict], category: str = "") -> str | List[
     Возвращает отсортированный список продуктов по убыванию цены в заданной категории.
     Если категория не задана, сортирует для всех продуктов."""
     if not category:
-        result_product_list = sorted(products, key=lambda x: x.get("price"), reverse=True)
+        result_product_list = sorted(products, key=lambda x: x["price"], reverse=True)
     else:
         temp_product_list = [product for product in products if product.get("category") == category]
         if temp_product_list:
-            result_product_list = sorted(temp_product_list, key=lambda x: x.get("price"), reverse=True)
+            result_product_list = sorted(temp_product_list, key=lambda x: x["price"], reverse=True)
         else:
             return "Такой категории продуктов не обнаружено! Проверьте введённые данные!"
     return result_product_list
@@ -27,14 +27,14 @@ def internet_market(goods: List[dict]) -> dict:
     result_order_dict = {}
     # Формируем список уникальных фигурирующих дат формата "YYYY-MM"
     for good in goods:
-        if datetime.fromisoformat(good.get("date")).strftime("%Y-%m") not in dates_list:
-            dates_list.append(datetime.fromisoformat(good.get("date")).strftime("%Y-%m"))
+        if datetime.fromisoformat(good["date"]).strftime("%Y-%m") not in dates_list:
+            dates_list.append(datetime.fromisoformat(good["date"]).strftime("%Y-%m"))
     # Перебираем список дат и получаем отфильтрованные заказы, пришедшиеся на конкретную дату.
     # Определяем временные счётчики общей суммы заказов и количества заказов за месяц.
     for order_date in dates_list:
         temp_total_order_value = 0
         temp_order_count = 0
-        temp_list = filter(lambda x: datetime.fromisoformat(x.get("date")).strftime("%Y-%m") == order_date, goods)
+        temp_list = filter(lambda x: datetime.fromisoformat(x["date"]).strftime("%Y-%m") == order_date, goods)
         for good in temp_list:
             temp_order_count += 1
             for item in good["items"]:
